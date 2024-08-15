@@ -1,0 +1,11 @@
+
+## Resgatar CDB
+POST https://localhost:5139/cdb/resgatar/
+Accept: application/json
+
+{
+   valorInicial: 10000,
+   prazoEmMeses: 10,
+   percentualCdi: null,
+   percentualCdiPagoPeloBanco: null
+}

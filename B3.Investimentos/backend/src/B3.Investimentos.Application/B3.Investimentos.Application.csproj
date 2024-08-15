@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>B3.Investimentos.Application</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AstroCqrs" Version="2.0.6"/>
+        <PackageReference Include="Mapster" Version="7.4.0"/>
+        <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="8.0.0"/>
+        <PackageReference Include="Serilog.Sinks.File" Version="6.0.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\B3.Investimentos.Domain\B3.Investimentos.Domain.csproj"/>
+        <ProjectReference Include="..\B3.Investimentos.Infrastructure\B3.Investimentos.Infrastructure.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Update="MensagensApplication.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>MensagensApplication.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Update="MensagensApplication.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>MensagensApplication.resx</DependentUpon>
+        </Compile>
+    </ItemGroup>
+
+</Project>

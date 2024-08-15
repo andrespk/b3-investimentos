@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>B3.Investimentos.Domain</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FluentValidation" Version="11.9.2"/>
+        <PackageReference Include="Mapster" Version="7.4.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Update="MensagensDomain.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>DomainMessages.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Remove="Core\**"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Update="MensagensDomain.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>MensagensDomain.resx</DependentUpon>
+        </Compile>
+        <Compile Remove="Core\**"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Remove="Core\**"/>
+    </ItemGroup>
+
+</Project>

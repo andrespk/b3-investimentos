@@ -8,6 +8,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "backend", "backend", "{F00C7DCF-24DE-443E-94A3-AD418EFCBCCC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8E6EDB88-47E3-425E-9804-889D3080AE08}"
+	ProjectSection(SolutionItems) = preProject
+		backend\src\README.md = backend\src\README.md
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "B3.Investimentos.Domain", "backend\src\B3.Investimentos.Domain\B3.Investimentos.Domain.csproj", "{5AA6E535-888F-488F-B63D-B84FB59FE1E6}"
 EndProject

@@ -1,6 +1,6 @@
 using B3.Investimentos.Domain.Cdb.Abstractions;
-using B3.Investimentos.Domain.Cdb.ValueObjects;
 using B3.Investimentos.Domain.Extensions;
+using B3.Investimentos.Domain.ValueObjects;
 using FluentValidation;
 
 namespace B3.Investimentos.Domain.Cdb;

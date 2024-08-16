@@ -11,8 +11,8 @@ builder.AdicionarDependenciasDeDominio();
 builder.AdicionarInfraestrutura();
 
 var app = builder.Build();
-app.ConfigurarDocumentacao();
 app.ConfigurarRotas();
-app.ConfigurarMiddlewares();
+app.ConfigurarTratamentoDeErros();
+app.ConfigurarDocumentacao();
 
 await app.RunAsync();

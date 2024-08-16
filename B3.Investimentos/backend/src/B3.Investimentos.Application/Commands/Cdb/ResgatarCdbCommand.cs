@@ -49,7 +49,7 @@ public static class ResgatarCdbCommand
             public override async Task<IHandlerResponse<Response>> ExecuteAsync(Command comando,
                 CancellationToken ct = default)
             {
-                var cacheKey = contexto.CacheService.GerarCacheKey(comando);
+                var cacheKey = contexto.CacheService.GerarChave(comando);
                 var resgate = await contexto.CacheService.ObterAsync<IResgateCdb>(cacheKey, ct);
 
                 if (resgate is not null) return Success(new Response(Resultado<IResgateCdb>.Sucesso(resgate)));
@@ -64,7 +64,7 @@ public static class ResgatarCdbCommand
                 var ttl = TimeSpan.FromSeconds(contexto.Configuration.GetValue<int>(
                     ConfiguracaoInfraestrutura.TempoDeVidaCacheEmSegundos));
                 resgate = await contexto.CdbService.ResgatarAsync(cdb, comando.PrazoEmMeses, ct);
-                await contexto.CacheService.CriarOuAtualizarAsync(cacheKey, resgate, ttl, ct);
+                await contexto.CacheService.RegistrarAsync(cacheKey, resgate, ttl, ct);
 
                 return Success(new Response(Resultado<IResgateCdb>.Sucesso(resgate)));
             }

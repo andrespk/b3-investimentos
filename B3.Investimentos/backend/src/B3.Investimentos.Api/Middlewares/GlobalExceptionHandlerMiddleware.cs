@@ -6,49 +6,44 @@ using B3.Investimentos.Application;
 using B3.Investimentos.Application.DTO;
 using B3.Investimentos.Infrastructure.Logging;
 using FluentValidation;
+using Serilog;
 
 namespace B3.Investimentos.Api.Middlewares;
 
-public class GlobalExceptionHandlerMiddleware(ILogService logger)
+public class GlobalExceptionHandlerMiddleware(RequestDelegate next)
 {
-    public async Task InvokeAsync(HttpContext contexto, RequestDelegate next)
+    private string? _mensagemLog = string.Empty;
+    private bool _possuiFalhaDeValidacao;
+    private bool _possuiErro;
+    private Dictionary<string, string> _falhasDeValidacao = new();
+
+    public async Task InvokeAsync(HttpContext context)
     {
         try
         {
-            await next(contexto);
+            await next(context);
         }
-        catch (Exception excecao)
+        catch (ValidationException e)
         {
-            var opcoesSerializador = new JsonSerializerOptions
+            _possuiFalhaDeValidacao = true;
+            _falhasDeValidacao = e.Errors
+                .GroupBy(x => x.PropertyName)
+                .ToDictionary(k => ResolverChaveDaValidacao(k.Key), values => values.First().ErrorMessage)!;
+            context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            _mensagemLog = $"[ValidationException] {e.Message}";
+            await TratarErrosEFalhasDeValidacaoAsync(context);
+        }
+        catch (Exception e)
+        {
+            if (e.GetType() == typeof(ValidationException))
             {
-                Converters = { new JsonStringEnumConverter() },
-                DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            };
+                return;
+            }
 
-            if (excecao.GetType() == typeof(ValidationException))
-            {
-                var failures = (excecao as ValidationException)?.Errors
-                    .GroupBy(x => x.PropertyName)
-                    .ToDictionary(k => ResolverChaveDaValidacao(k.Key), values => values.First().ErrorMessage);
-                contexto.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                logger.LogWarning(excecao.Message, JsonSerializer.Serialize(ObterMetadados(contexto)));
-                await contexto.Response.WriteAsJsonAsync(
-                    Resultado.Falha(MensagensApplication.FalhasDeValidacaoEncontradas, failures,
-                        contexto.Response.StatusCode), opcoesSerializador);
-            }
-            else
-            {
-                var origem = excecao.GetType().Name;
-                contexto.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                logger.LogError(origem, excecao.Message, ObterMetadados(contexto));
-                await contexto.Response.WriteAsJsonAsync(
-                    Resultado.Falha(
-                        MensagensApplication.FalhaNoProcessamentoDaRequisicao,
-                        default,
-                        contexto.Response.StatusCode),
-                    opcoesSerializador);
-            }
+            _possuiErro = true;
+            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            _mensagemLog = $"[{e.GetType().Name}] {FormatarExcecaoEmJson(e)}";
+            await TratarErrosEFalhasDeValidacaoAsync(context);
         }
     }
 
@@ -63,8 +58,76 @@ public class GlobalExceptionHandlerMiddleware(ILogService logger)
         return string.Join(".", partes);
     }
 
-    private MetadadosRequisicao ObterMetadados(HttpContext httpContext)
+    private string FormatarExcecaoEmJson(Exception exception)
     {
-        return new MetadadosRequisicao(httpContext.Request, httpContext.Response.StatusCode);
+        var excecao = new
+        {
+            Origem = exception.Source,
+            Tipo = exception.GetType().Name,
+            Erro = exception.Message,
+            TipoExcecaoInterna = exception.InnerException?.GetType().Name,
+            ErroExcecaoInterna = exception.InnerException?.Message,
+            Pilha = exception.StackTrace,
+            Dados = exception.Data
+        };
+
+        return JsonSerializer.Serialize(excecao);
+    }
+
+    private string FormatarRequisicaoSumarizada(HttpContext contexto)
+    {
+        var metadados = new
+        {
+            Request = new
+            {
+                Host = contexto.Request.Host.Value,
+                Path = contexto.Request.Path.Value,
+                contexto.Request.Method,
+                contexto.Request.Query,
+                contexto.Request.Protocol,
+                contexto.Request.IsHttps,
+                contexto.Request.Headers,
+                contexto.Request.Cookies
+            },
+            contexto.Response.StatusCode
+        };
+
+        return JsonSerializer.Serialize(metadados);
+    }
+
+
+    private async Task TratarErrosEFalhasDeValidacaoAsync(HttpContext contexto)
+    {
+        var opcoesSerializador = new JsonSerializerOptions
+        {
+            Converters = { new JsonStringEnumConverter() },
+            DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
+
+        if (_possuiFalhaDeValidacao)
+        {
+            Log.Warning("{0}", _mensagemLog);
+            await contexto.Response.WriteAsJsonAsync(
+                Resultado.Falha(MensagensApplication.FalhasDeValidacaoEncontradas, _falhasDeValidacao,
+                    contexto.Response.StatusCode), opcoesSerializador);
+        }
+
+        if (_possuiErro)
+        {
+            var mensagemLogEnriquecida = $"{_mensagemLog}\n[Request] {FormatarRequisicaoSumarizada(contexto)}";
+            Log.Error("{0}", mensagemLogEnriquecida);
+            await contexto.Response.WriteAsJsonAsync(
+                Resultado.Falha(
+                    MensagensApplication.FalhaNoProcessamentoDaRequisicao,
+                    default,
+                    contexto.Response.StatusCode),
+                opcoesSerializador);
+        }
+
+        _mensagemLog = string.Empty;
+        _possuiErro = false;
+        _possuiFalhaDeValidacao = false;
+        _falhasDeValidacao = new();
     }
 }

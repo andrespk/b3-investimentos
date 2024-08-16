@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using AstroCqrs;
+using B3.Investimentos.Api.Middlewares;
 using B3.Investimentos.Application.Contextos.Cdb;
 using B3.Investimentos.Domain.Cdb;
 using B3.Investimentos.Domain.Cdb.Abstractions;
@@ -15,16 +16,15 @@ public static class WebApplicatioBuilderExtensions
 {
     public static WebApplicationBuilder AdicionarInfraestrutura(this WebApplicationBuilder builder)
     {
-        builder.Host.UseSerilog();
         builder.Services.AddAstroCqrs();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddCors();
         builder.Services.AddMemoryCache();
         builder.Services.AddSingleton<ICacheProvider, MemoryCacheProvider>();
-        builder.Services.AddScoped<ICacheService, CacheServiceUnit>();
+        builder.Services.AddScoped<ICacheService, CacheService>();
+        builder.Host.UseSerilog();
         builder.Services.AddTransient<ILogger>(provider => Log.Logger);
-
         return builder;
     }
 
@@ -34,7 +34,6 @@ public static class WebApplicatioBuilderExtensions
         builder.Services.AddScoped<IResgateCdb, ResgateCdb>();
         builder.Services.AddScoped<ICdbService, CdbService>();
         builder.Services.AddScoped<ICdbContexto, CdbContexto>();
-
         return builder;
     }
 }

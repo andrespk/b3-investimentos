@@ -1,6 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
 using AstroCqrs;
+using B3.Investimentos.Api.Middlewares;
 using B3.Investimentos.Application.Commands.Cdb;
+using Serilog;
 
 namespace B3.Investimentos.Api.Extensions;
 
@@ -11,19 +13,15 @@ public static class WebApplicationEntensions
     {
         app.UseHttpsRedirection();
         app.UseCors();
-
         app.MapPostHandler<ResgatarCdbCommand.Command, ResgatarCdbCommand.Response>("/cdb/resgatar")
-            .WithName("ResgatarCDB")
+            .WithName("b3-investimentos-resgatar-cdb")
             .WithOpenApi();
-
         return app;
     }
 
-    public static WebApplication ConfigurarMiddlewares(this WebApplication app)
+    public static WebApplication ConfigurarTratamentoDeErros(this WebApplication app)
     {
-        //TODO: ajustar depois
-        //app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
-
+        app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
         return app;
     }
 
@@ -34,7 +32,6 @@ public static class WebApplicationEntensions
             app.UseSwagger();
             app.UseSwaggerUI();
         }
-
         return app;
     }
 }

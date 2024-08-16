@@ -11,7 +11,7 @@ public sealed class MemoryCacheProvider(IMemoryCache cache) : ICacheProvider
         return Task.FromResult(cache.Get<T>(cacheKey));
     }
 
-    public Task CriarOuAtualizarAsync<T>(string cacheKey, T valor, TimeSpan ttl, CancellationToken cancellationToken)
+    public Task RegistrarAsync<T>(string cacheKey, T valor, TimeSpan ttl, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
 

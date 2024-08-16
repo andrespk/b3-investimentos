@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 namespace B3.Investimentos.Infrastructure.Caching;
 
 [ExcludeFromCodeCoverage]
-public class CacheService(ICacheProvider provider, IConfiguration configuration) : ICacheService
+public class CacheService(ICacheProvider provider) : ICacheService
 {
     public Task<T?> ObterAsync<T>(string cacheKey, CancellationToken cancellationToken)
     {

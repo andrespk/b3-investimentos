@@ -11,7 +11,6 @@ using Xunit;
 
 namespace B3.Investimentos.UnitTests.Cdb;
 
-[ExcludeFromCodeCoverage]
 public class CdbServiceUnitTests
 {
     private readonly IConfiguration _configuration = TestHelper.GetIConfigurationRoot();

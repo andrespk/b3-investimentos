@@ -8,7 +8,6 @@ using ValidationException = FluentValidation.ValidationException;
 
 namespace B3.Investimentos.UnitTests.Cdb;
 
-[ExcludeFromCodeCoverage]
 public class ResgateCdbUnitTests
 {
     private readonly Faker _faker = new();

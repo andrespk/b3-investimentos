@@ -9,7 +9,6 @@ using Xunit;
 
 namespace B3.Investimentos.UnitTests.Cache;
 
-[ExcludeFromCodeCoverage]
 public class CacheServiceTests
 {
     [Fact(DisplayName = "Deve operar corretamente com o provedor de cache em memória")]
@@ -62,20 +61,20 @@ public class CacheServiceTests
         resultado.Should().BeNull();
     }
 
-    private (ICacheService, ICacheProvider) ObterCenario()
+    private static (ICacheService, ICacheProvider) ObterCenario()
     {
         var cacheProvider = A.Fake<ICacheProvider>();
-        return (new CacheService(cacheProvider, TestHelper.GetIConfigurationRoot()), cacheProvider);
+        return (new CacheService(cacheProvider), cacheProvider);
     }
 
-    private ICacheService ObterServico()
+    private static ICacheService ObterServico()
     {
         var memoryCache = A.Fake<IMemoryCache>();
         var cacheProvider = new MemoryCacheProvider(memoryCache);
-        return new CacheService(cacheProvider, TestHelper.GetIConfigurationRoot());
+        return new CacheService(cacheProvider);
     }
 
-    private CancellationToken ObterCancellationToken() => new();
+    private static CancellationToken ObterCancellationToken() => new();
     
     private static MemoryCacheProvider ObterCacheProvider()
     {

@@ -13,7 +13,6 @@ using Xunit;
 
 namespace B3.Investimentos.UnitTests.Cdb;
 
-[ExcludeFromCodeCoverage]
 public class CdbResgatarCommandUnitTests
 {
     private readonly IConfiguration _configuration;
@@ -134,7 +133,7 @@ public class CdbResgatarCommandUnitTests
         stopWatchResgateA.ElapsedMilliseconds.Should().BeGreaterThan(stopWatchResgateB.ElapsedMilliseconds);
     }
 
-    private ResgatarCdbCommand.CommandValidator.Handler ObterHandlerComando()
+    private static ResgatarCdbCommand.CommandValidator.Handler ObterHandlerComando()
     {
         var contextoCdb = A.Fake<ICdbContexto>();
         return new ResgatarCdbCommand.CommandValidator.Handler(contextoCdb);

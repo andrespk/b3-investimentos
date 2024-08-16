@@ -6,7 +6,6 @@ using Xunit;
 
 namespace B3.Investimentos.UnitTests.Cdb;
 
-[ExcludeFromCodeCoverage]
 public class CdbUnitTests
 {
     private readonly Faker _faker = new();

@@ -26,7 +26,7 @@ public class CdbUnitTests
 
         cdbClienteA.Corrigir(prazoEmMesesClienteA);
         cdbClienteB.Corrigir(_faker.Random.Decimal(1, 99999.99M).Truncar(2), prazoEmMesesClienteB);
-        cdbClienteC.DefinirPercentuaisCdi(_faker.Random.Decimal(0.1M, 0.9M), _faker.Random.Number(100, 110));
+        cdbClienteC.DefinirPercentuaisCdi(_faker.Random.Decimal(1, 1.5M), _faker.Random.Number(111, 130));
 
         cdbClienteA.ValorDoRendimento.Should().BeGreaterThan(0);
         cdbClienteA.PercentualDoRendimento.Should().BeGreaterThan(0);

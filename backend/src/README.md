@@ -8,13 +8,13 @@
 ### Instruções para executar a API:
 ```bash
 cd b3-investimentos\backend\src\B3.Investimentos.Api
-dotnet restore
+dotnet clean
 dotnet run  
 ```
 
 ### Instruções para executar os testes da API:
 ```bash
-cd b3-investimentos\backend\src\B3.Investimentos.Api
-dotnet restore
+cd b3-investimentos
+dotnet clean
 dotnet test  
 ```

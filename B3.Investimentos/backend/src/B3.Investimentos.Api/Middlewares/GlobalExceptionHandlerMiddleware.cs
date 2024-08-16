@@ -4,7 +4,6 @@ using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using B3.Investimentos.Application;
 using B3.Investimentos.Application.DTO;
-using B3.Investimentos.Infrastructure.Logging;
 using FluentValidation;
 using Serilog;
 
@@ -58,7 +57,7 @@ public class GlobalExceptionHandlerMiddleware(RequestDelegate next)
         return string.Join(".", partes);
     }
 
-    private string FormatarExcecaoEmJson(Exception exception)
+    public string FormatarExcecaoEmJson(Exception exception)
     {
         var excecao = new
         {
@@ -71,10 +70,11 @@ public class GlobalExceptionHandlerMiddleware(RequestDelegate next)
             Dados = exception.Data
         };
 
-        return JsonSerializer.Serialize(excecao);
+        var json = JsonSerializer.Serialize(excecao).Replace("{Request:", "").Trim();
+        return json.Substring(0, json.Length - 2);
     }
 
-    private string FormatarRequisicaoSumarizada(HttpContext contexto)
+    public string FormatarRequisicaoSumarizada(HttpContext contexto)
     {
         var metadados = new
         {
@@ -117,6 +117,7 @@ public class GlobalExceptionHandlerMiddleware(RequestDelegate next)
         {
             var mensagemLogEnriquecida = $"{_mensagemLog}\n[Request] {FormatarRequisicaoSumarizada(contexto)}";
             Log.Error("{0}", mensagemLogEnriquecida);
+            
             await contexto.Response.WriteAsJsonAsync(
                 Resultado.Falha(
                     MensagensApplication.FalhaNoProcessamentoDaRequisicao,

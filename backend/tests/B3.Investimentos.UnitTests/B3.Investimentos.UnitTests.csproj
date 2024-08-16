@@ -31,6 +31,7 @@
         <ProjectReference Include="..\..\src\B3.Investimentos.Api\B3.Investimentos.Api.csproj"/>
         <ProjectReference Include="..\..\src\B3.Investimentos.Application\B3.Investimentos.Application.csproj"/>
         <ProjectReference Include="..\..\src\B3.Investimentos.Domain\B3.Investimentos.Domain.csproj"/>
+        <ProjectReference Include="..\..\src\B3.Investimentos.Infrastructure\B3.Investimentos.Infrastructure.csproj"/>
     </ItemGroup>
 
 </Project>

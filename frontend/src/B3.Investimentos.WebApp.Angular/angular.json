@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "B3.Frontend.Investimentoss.WebApp": {
+    "B3.Investimentos.WebApp.Angular": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/b3.frontend.calculadora-investimentos.web-app",
+            "outputPath": "dist/b3.investimentos.web-app.angular",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -32,14 +32,12 @@
               }
             ],
             "styles": [
+              "node_modules/primeng/resources/themes/saga-blue/theme.css",
+              "node_modules/primeng/resources/primeng.min.css",
+              "node_modules/primeicons/primeicons.css",
               "src/styles.scss"
             ],
-            "scripts": [],
-            "server": "src/main.server.ts",
-            "prerender": true,
-            "ssr": {
-              "entry": "server.ts"
-            }
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -69,10 +67,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "B3.Frontend.Investimentoss.WebApp:build:production"
+              "buildTarget": "B3.Investimentos.WebApp.Angular:build:production"
             },
             "development": {
-              "buildTarget": "B3.Frontend.Investimentoss.WebApp:build:development"
+              "buildTarget": "B3.Investimentos.WebApp.Angular:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -103,5 +101,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "2a4cae53-b121-439d-bc30-f925fbdc9be2"
   }
 }

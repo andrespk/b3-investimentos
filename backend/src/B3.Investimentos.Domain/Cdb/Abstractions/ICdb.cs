@@ -2,10 +2,11 @@ namespace B3.Investimentos.Domain.Cdb.Abstractions;
 
 public interface ICdb
 {
-    decimal ValorInicial { get; }
-    decimal ValorAtual { get; }
-    decimal PercentualDoRendimento { get; }
-    decimal ValorDoRendimento { get; }
-    void Corrigir(decimal valorInicial, int prazoEmMeses);
-    void DefinirPercentuaisCdi(decimal percentualCdi, decimal percentualCdiPagoPeloBanco);
+    decimal ValorInvestido { get; }
+    decimal ValorRetorno { get; }
+    int PrazoEmMeses { get; }
+    decimal PercentualCdi { get; }
+     decimal PercentualCdiPagoPeloBanco { get; }
+    decimal PercentualRendimento { get; }
+    decimal ValorRendimento { get; }
 }

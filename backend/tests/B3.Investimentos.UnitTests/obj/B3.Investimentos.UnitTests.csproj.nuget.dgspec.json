@@ -375,6 +375,9 @@
               },
               "/home/andre/develop/b3/b3-investimentos/backend/src/B3.Investimentos.Domain/B3.Investimentos.Domain.csproj": {
                 "projectPath": "/home/andre/develop/b3/b3-investimentos/backend/src/B3.Investimentos.Domain/B3.Investimentos.Domain.csproj"
+              },
+              "/home/andre/develop/b3/b3-investimentos/backend/src/B3.Investimentos.Infrastructure/B3.Investimentos.Infrastructure.csproj": {
+                "projectPath": "/home/andre/develop/b3/b3-investimentos/backend/src/B3.Investimentos.Infrastructure/B3.Investimentos.Infrastructure.csproj"
               }
             }
           }
@@ -422,6 +425,12 @@
             "xunit": {
               "target": "Package",
               "version": "[2.9.0, )"
+            },
+            "xunit.runner.visualstudio": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.8.2, )"
             }
           },
           "imports": [

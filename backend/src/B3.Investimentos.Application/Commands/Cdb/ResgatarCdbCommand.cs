@@ -53,17 +53,18 @@ public static class ResgatarCdbCommand
                 var resgate = await contexto.CacheService.ObterAsync<IResgateCdb>(cacheKey, ct);
 
                 if (resgate is not null) return Success(new Response(Resultado<IResgateCdb>.Sucesso(resgate)));
-                
+
                 var percentualCdi =
                     comando.PercentualCdi ??
                     contexto.Configuration.GetValue<decimal>(ConfiguracaoAplicacao.PercentualPadraoCdi);
                 var percentualCdiPagoPeloBanco = comando.PercentualCdiPagoPeloBanco ??
                                                  contexto.Configuration.GetValue<decimal>(ConfiguracaoAplicacao
                                                      .PercentualPadraoCdiPagoPeloBanco);
-                var cdb = new Domain.Cdb.Cdb(comando.ValorInicial, percentualCdi, percentualCdiPagoPeloBanco);
+                var cdb = new Domain.Cdb.Cdb(comando.ValorInicial, comando.PrazoEmMeses, percentualCdi,
+                    percentualCdiPagoPeloBanco);
                 var ttl = TimeSpan.FromSeconds(contexto.Configuration.GetValue<int>(
                     ConfiguracaoInfraestrutura.TempoDeVidaCacheEmSegundos));
-                resgate = await contexto.CdbService.ResgatarAsync(cdb, comando.PrazoEmMeses, ct);
+                resgate = await contexto.CdbService.ResgatarAsync(cdb, ct);
                 await contexto.CacheService.RegistrarAsync(cacheKey, resgate, ttl, ct);
 
                 return Success(new Response(Resultado<IResgateCdb>.Sucesso(resgate)));

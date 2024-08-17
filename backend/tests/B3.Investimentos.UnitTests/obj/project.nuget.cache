@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "oLLkHdgyZxVCWEULOgdsjUSjtGF3RBOtZVblI1kGvPxpo/J4gaC46jagxndkK5SG5W+HXhV6t3YaEjpHm7cefg==",
+  "dgSpecHash": "b9mmmwQDMtuIfxKvGw4DnYMCGBlJuTTZK5BE5xhrGb72ErORizmuplM9FilWK0QF1iq6hkyRkerQmrs257e8Mw==",
   "success": true,
   "projectFilePath": "/home/andre/develop/b3/b3-investimentos/backend/tests/B3.Investimentos.UnitTests/B3.Investimentos.UnitTests.csproj",
   "expectedPackageFiles": [
@@ -104,7 +104,8 @@
     "/home/andre/.nuget/packages/xunit.assert/2.9.0/xunit.assert.2.9.0.nupkg.sha512",
     "/home/andre/.nuget/packages/xunit.core/2.9.0/xunit.core.2.9.0.nupkg.sha512",
     "/home/andre/.nuget/packages/xunit.extensibility.core/2.9.0/xunit.extensibility.core.2.9.0.nupkg.sha512",
-    "/home/andre/.nuget/packages/xunit.extensibility.execution/2.9.0/xunit.extensibility.execution.2.9.0.nupkg.sha512"
+    "/home/andre/.nuget/packages/xunit.extensibility.execution/2.9.0/xunit.extensibility.execution.2.9.0.nupkg.sha512",
+    "/home/andre/.nuget/packages/xunit.runner.visualstudio/2.8.2/xunit.runner.visualstudio.2.8.2.nupkg.sha512"
   ],
   "logs": []
 }

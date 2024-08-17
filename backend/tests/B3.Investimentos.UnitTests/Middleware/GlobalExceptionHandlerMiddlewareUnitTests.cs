@@ -10,7 +10,7 @@ namespace B3.Investimentos.UnitTests.Middleware;
 
 public class GlobalExceptionHandlerMiddlewareUnitTests
 {
-    [Fact(DisplayName = "Deve tratar esceções não esperadas corretamente")]
+    [Fact(DisplayName = "Deve tratar exceções não esperadas corretamente")]
     public async Task DeveTratarExcecoesNaoEsperadasCorretamenteAsync()
     {
         var mensagemExcecao = "Testando exceção não esperada";

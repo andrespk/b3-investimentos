@@ -77,7 +77,7 @@ public class ResgatarCdbCommandIntegrationTests : IClassFixture<WebApplicationFa
     }
     
     [Theory(DisplayName = "Deve falhar ao resgatar o CDB")]
-    [InlineData(1000, 0)]
+    [InlineData(1000, 1)]
     [InlineData(0, 2)]
     public async Task DeveFalharAoResgatarCdbAsync(decimal valorInvestido, decimal prazoEmMeses)
     {

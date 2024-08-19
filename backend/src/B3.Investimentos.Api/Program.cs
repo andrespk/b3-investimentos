@@ -1,18 +1,5 @@
-using B3.Investimentos.Api.Extensions;
-using Serilog;
+using B3.Investimentos.Api;
 
-Log.Logger = new LoggerConfiguration()
-    .WriteTo.Console()
-    .WriteTo.File("../../logs/log.txt", rollingInterval: RollingInterval.Day)
-    .CreateLogger();
+await AplicacaoProvider.ObterWebApplication(args).RunAsync();
 
-var builder = WebApplication.CreateBuilder(args);
-builder.AdicionarDependenciasDeDominio();
-builder.AdicionarInfraestrutura();
-
-var app = builder.Build();
-app.ConfigurarRotas();
-app.ConfigurarTratamentoDeErros();
-app.ConfigurarDocumentacao();
-
-await app.RunAsync();
+public partial class Program;

@@ -20,7 +20,7 @@ public class CdbResgatarCommandUnitTests
 
     public CdbResgatarCommandUnitTests()
     {
-        _configuration = TestHelper.GetIConfigurationRoot();
+        _configuration = UnitTestHelper.GetIConfigurationRoot();
     }
 
     [Fact(DisplayName = "Deve efetuar o resgate do CDB com sucesso")]
@@ -39,9 +39,9 @@ public class CdbResgatarCommandUnitTests
 
         resultadoValidacao.IsValid.Should().BeTrue();
         resposta.IsSuccess.Should().BeTrue();
-        resposta.Payload?.Resposta.IsBemSucedido.Should().BeTrue();
-        resposta.Payload?.Resposta.Dados.Should().NotBeNull();
-        resposta.Payload?.Resposta.Erros.Count.Should().Be(0);
+        resposta.Payload.Sucesso.Should().BeTrue();
+        resposta.Payload.Dados.Should().NotBeNull();
+        resposta.Payload.Erros.Count.Should().Be(0);
     }
 
     [Fact(DisplayName = "Deve falhar na validação do Resgate do CDB para prazos inválidos")]
@@ -128,8 +128,8 @@ public class CdbResgatarCommandUnitTests
         var respostaB = await ObterHandlerComando().ExecuteAsync(comando, cancellationToken);
         stopWatchResgateB.Stop();
 
-        respostaA.Payload?.Resposta.Dados.Should().NotBeNull();
-        respostaB.Payload?.Resposta.Dados.Should().NotBeNull();
+        respostaA.Payload.Dados.Should().NotBeNull();
+        respostaB.Payload.Dados.Should().NotBeNull();
         stopWatchResgateA.ElapsedMilliseconds.Should().BeGreaterThan(stopWatchResgateB.ElapsedMilliseconds);
     }
 

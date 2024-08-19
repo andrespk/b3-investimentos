@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ResgatarCdbRequestDto } from './dtos/resgatar-cdb-request.dto';
 import { ResgatarCdbResponseDto } from './dtos/resgatar-cdb-response.dto';
 import { ResgatarCdbService } from './resgatar.service';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-resgatar',

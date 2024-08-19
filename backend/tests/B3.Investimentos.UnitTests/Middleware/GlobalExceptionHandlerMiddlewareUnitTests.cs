@@ -33,7 +33,7 @@ public class GlobalExceptionHandlerMiddlewareUnitTests
         var mensagemValidacao = "Testando falha de validação";
         var logger = ConfigurarEObterLogger();
 
-        var middleware = new GlobalExceptionHandlerMiddleware(async (innerHttpContext) =>
+        var middleware = new GlobalExceptionHandlerMiddleware((innerHttpContext) =>
         {
             throw new ValidationException(mensagemValidacao);
         });

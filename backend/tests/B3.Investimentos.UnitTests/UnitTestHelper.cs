@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 namespace B3.Investimentos.UnitTests;
 
 [ExcludeFromCodeCoverage]
-public static class TestHelper
+public static class UnitTestHelper
 {
     public static IConfigurationRoot GetIConfigurationRoot()
     {

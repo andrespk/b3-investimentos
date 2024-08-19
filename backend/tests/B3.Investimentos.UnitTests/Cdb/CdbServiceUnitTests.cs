@@ -10,7 +10,7 @@ namespace B3.Investimentos.UnitTests.Cdb;
 
 public class CdbServiceUnitTests
 {
-    private readonly IConfiguration _configuration = TestHelper.GetIConfigurationRoot();
+    private readonly IConfiguration _configuration = UnitTestHelper.GetIConfigurationRoot();
     private readonly Faker _faker = new();
 
     [Fact(DisplayName = "Deve efetuar o resgate do CDB com sucesso")]

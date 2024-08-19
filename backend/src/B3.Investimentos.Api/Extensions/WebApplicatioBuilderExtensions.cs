@@ -25,6 +25,8 @@ public static class WebApplicatioBuilderExtensions
         builder.Services.AddScoped<ICacheService, CacheService>();
         builder.Host.UseSerilog();
         builder.Services.AddTransient<ILogger>(provider => Log.Logger);
+        builder.Services.AddHealthChecks();
+        Log.Logger.Information("Infraestrutura adicionada: OK");
         return builder;
     }
 
@@ -34,6 +36,7 @@ public static class WebApplicatioBuilderExtensions
         builder.Services.AddScoped<IResgateCdb, ResgateCdb>();
         builder.Services.AddScoped<ICdbService, CdbService>();
         builder.Services.AddScoped<ICdbContexto, CdbContexto>();
+        Log.Logger.Information("Dependencias de dominio adicionadas: OK");
         return builder;
     }
 }

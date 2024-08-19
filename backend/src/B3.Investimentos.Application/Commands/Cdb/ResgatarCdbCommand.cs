@@ -12,18 +12,17 @@ namespace B3.Investimentos.Application.Commands.Cdb;
 public static class ResgatarCdbCommand
 {
     public sealed record Command(
-        decimal ValorInicial,
+        decimal ValorInvestido,
         int PrazoEmMeses,
         decimal? PercentualCdi = default,
-        decimal? PercentualCdiPagoPeloBanco = default) : ICommand<IHandlerResponse<Response>>;
+        decimal? PercentualCdiPagoPeloBanco = default) : ICommand<IHandlerResponse<Resultado<IResgateCdb>>>;
 
-    public sealed record Response(Resultado<IResgateCdb> Resposta);
 
     public sealed class CommandValidator : Validator<Command>
     {
         public CommandValidator()
         {
-            RuleFor(x => x.ValorInicial)
+            RuleFor(x => x.ValorInvestido)
                 .NotNull()
                 .GreaterThan(0)
                 .WithMessage(MensagensApplication.CdbValorInicialInvalido);
@@ -44,15 +43,15 @@ public static class ResgatarCdbCommand
                 .WithMessage(MensagensApplication.CdbPercentualCdiPagoPeloBancoInvalido);
         }
 
-        public sealed class Handler(ICdbContexto contexto) : CommandHandler<Command, Response>(contexto)
+        public sealed class Handler(ICdbContexto contexto) : CommandHandler<Command, Resultado<IResgateCdb>>(contexto)
         {
-            public override async Task<IHandlerResponse<Response>> ExecuteAsync(Command comando,
+            public override async Task<IHandlerResponse<Resultado<IResgateCdb>>> ExecuteAsync(Command comando,
                 CancellationToken ct = default)
             {
                 var cacheKey = contexto.CacheService.GerarChave(comando);
                 var resgate = await contexto.CacheService.ObterAsync<IResgateCdb>(cacheKey, ct);
 
-                if (resgate is not null) return Success(new Response(Resultado<IResgateCdb>.Sucesso(resgate)));
+                if (resgate is not null) return Success(Resultado<IResgateCdb>.BemSucedido(resgate));
 
                 var percentualCdi =
                     comando.PercentualCdi ??
@@ -60,14 +59,14 @@ public static class ResgatarCdbCommand
                 var percentualCdiPagoPeloBanco = comando.PercentualCdiPagoPeloBanco ??
                                                  contexto.Configuration.GetValue<decimal>(ConfiguracaoAplicacao
                                                      .PercentualPadraoCdiPagoPeloBanco);
-                var cdb = new Domain.Cdb.Cdb(comando.ValorInicial, comando.PrazoEmMeses, percentualCdi,
+                var cdb = new Domain.Cdb.Cdb(comando.ValorInvestido, comando.PrazoEmMeses, percentualCdi,
                     percentualCdiPagoPeloBanco);
                 var ttl = TimeSpan.FromSeconds(contexto.Configuration.GetValue<int>(
                     ConfiguracaoInfraestrutura.TempoDeVidaCacheEmSegundos));
                 resgate = await contexto.CdbService.ResgatarAsync(cdb, ct);
                 await contexto.CacheService.RegistrarAsync(cacheKey, resgate, ttl, ct);
 
-                return Success(new Response(Resultado<IResgateCdb>.Sucesso(resgate)));
+                return Success(Resultado<IResgateCdb>.BemSucedido(resgate));
             }
         }
     }

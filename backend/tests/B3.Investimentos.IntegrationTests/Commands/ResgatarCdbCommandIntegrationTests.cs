@@ -78,9 +78,10 @@ public class ResgatarCdbCommandIntegrationTests : IClassFixture<WebApplicationFa
     }
     
     [Theory(DisplayName = "Deve falhar ao resgatar o CDB")]
-    [InlineData(1000, 1)]
-    [InlineData(0, 2)]
-    public async Task DeveFalharAoResgatarCdbAsync(decimal valorInvestido, decimal prazoEmMeses)
+    [InlineData(1000, 1, 1)]
+    [InlineData(0, 2, 1)]
+    [InlineData(0, 0, 2)]
+    public async Task DeveFalharAoResgatarCdbAsync(decimal valorInvestido, decimal prazoEmMeses, int quantidadeErros)
     {
         decimal? percentualCdi = null;
         decimal? percentualCdiPagoPeloBanco = null;
@@ -89,12 +90,10 @@ public class ResgatarCdbCommandIntegrationTests : IClassFixture<WebApplicationFa
 
         var response = await _client.PostAsync("/cdb/resgatar", input);
         var jsonObject = (await JsonNode.ParseAsync(await response.Content.ReadAsStreamAsync()))?.AsObject();
-        var sucesso = ObterValor<bool>(jsonObject, "sucesso");
-        var errosJsonObject = ObterValor<JsonNode>(jsonObject, "dados")?.AsObject();
+        var errosJsonObject = ObterValor<JsonNode>(jsonObject, "errors")?.AsObject();
         
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        sucesso.Should().BeFalse();
-        errosJsonObject?.Count.Should().BeGreaterThan(0);
+        errosJsonObject?.Count.Should().Be(quantidadeErros);
     }
 
     private T? ObterValor<T>(JsonObject? jsonNode, string propriedade)

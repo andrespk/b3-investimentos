@@ -10,6 +10,7 @@ public class CdbService(ICacheService cacheService, IConfiguration configuration
 {
     public async Task<IResgateCdb> ResgatarAsync(ICdb cdb, CancellationToken cancellationToken)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         var cacheKey = cacheService.GerarChave(cdb);
         var resgateEmCache = await cacheService.ObterAsync<IResgateCdb>(cacheKey, cancellationToken);
         if (resgateEmCache is not null) return resgateEmCache;

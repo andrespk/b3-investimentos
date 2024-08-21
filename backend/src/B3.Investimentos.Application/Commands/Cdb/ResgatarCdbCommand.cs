@@ -47,8 +47,10 @@ public static class ResgatarCdbCommand
             public override async Task<IHandlerResponse<Resultado<Response>>> ExecuteAsync(Command comando,
                 CancellationToken ct = default)
             {
-                var cdb = contexto.CdbService.Investir(comando.ValorInvestido, comando.PrazoEmMeses,
-                    comando.PercentualCdi,
+                var cdb = contexto.CdbService.Investir(
+                    comando.ValorInvestido, 
+                    comando.PrazoEmMeses,
+                    comando.PercentualCdi, 
                     comando.PercentualCdiPagoPeloBanco);
                 var resgate = await contexto.CdbService.ResgatarAsync(cdb, ct);
                 return Success(Resultado<Response>.BemSucedido(resgate.Adapt<Response>()));

@@ -14,12 +14,10 @@ public sealed class MemoryCacheProvider(IMemoryCache cache) : ICacheProvider
     public Task RegistrarAsync<T>(string cacheKey, T valor, TimeSpan ttl, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-
         var cacheOptions = new MemoryCacheEntryOptions
         {
             AbsoluteExpirationRelativeToNow = ttl
         };
-
         return Task.FromResult(cache.Set(cacheKey, valor, cacheOptions));
     }
 }

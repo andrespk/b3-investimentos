@@ -95,10 +95,10 @@ public class ResgatarCdbCommandIntegrationTests : IClassFixture<WebApplicationFa
     {
         if (jsonNode is not null)
         {
-            var sucesso = jsonNode.TryGetPropertyValue(propriedade, out JsonNode? innerJsonNode);
-            if (sucesso && innerJsonNode is not null)
+            var sucesso = jsonNode.TryGetPropertyValue(propriedade, out JsonNode? jsonNodeInterno);
+            if (sucesso && jsonNodeInterno is not null)
             {
-                var json = innerJsonNode.ToJsonString();
+                var json = jsonNodeInterno.ToJsonString();
                 return JsonSerializer.Deserialize<T>(json);
             }
         }

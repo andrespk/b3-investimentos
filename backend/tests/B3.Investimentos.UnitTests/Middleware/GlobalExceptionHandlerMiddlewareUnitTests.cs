@@ -4,7 +4,6 @@ using FluentAssertions;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Serilog;
-using Xunit;
 
 namespace B3.Investimentos.UnitTests.Middleware;
 
@@ -46,6 +45,18 @@ public class GlobalExceptionHandlerMiddlewareUnitTests
 
         context.Response.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
         A.CallTo(logger).MustHaveHappenedOnceExactly();
+    }
+    
+    [Fact(DisplayName = "Deve Resolver a chave de uma lista de erros de validação corretaemente")]
+    public void DeveResolverChaveListaErrosDeValidacaoCorretamenteAsync()
+    {
+        var valorChave = "0[123]456";
+
+
+        var resultado = GlobalExceptionHandlerMiddleware.ResolverChaveDaValidacao(valorChave);
+
+        string.IsNullOrEmpty(resultado).Should().BeFalse();
+        resultado.Should().Be("0.123456");
     }
 
     private static ILogger ConfigurarEObterLogger()

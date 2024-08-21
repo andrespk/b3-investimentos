@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using B3.Investimentos.Api.Extensions;
 using Serilog;
 
 namespace B3.Investimentos.Api;
 
+[ExcludeFromCodeCoverage]
 public static class AplicacaoProvider
 {
     public static WebApplicationBuilder ObterBuilder(string[] args)

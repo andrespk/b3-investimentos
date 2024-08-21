@@ -3,7 +3,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using B3.Investimentos.Application;
-using B3.Investimentos.Application.DTO;
+using B3.Investimentos.Application.Dto;
 using FluentValidation;
 using Serilog;
 
@@ -46,7 +46,7 @@ public class GlobalExceptionHandlerMiddleware(RequestDelegate next)
         }
     }
 
-    private static string ResolverChaveDaValidacao(string chave)
+    public static string ResolverChaveDaValidacao(string chave)
     {
         var regex = new Regex(@"\[(\d+)\]");
         var caminhoConvertido = regex.Replace(chave, ".$1");

@@ -2,6 +2,7 @@ using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using B3.Investimentos.Api;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 

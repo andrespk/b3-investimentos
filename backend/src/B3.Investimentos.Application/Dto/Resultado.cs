@@ -2,7 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Text.Json.Serialization;
 
-namespace B3.Investimentos.Application.DTO;
+namespace B3.Investimentos.Application.Dto;
 
 [ExcludeFromCodeCoverage]
 public struct Resultado<T>

@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using B3.Investimentos.Application;
 using B3.Investimentos.Application.Commands.Cdb;
 using B3.Investimentos.Application.Constants;
@@ -9,7 +8,6 @@ using Bogus;
 using FakeItEasy;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
-using Xunit;
 
 namespace B3.Investimentos.UnitTests.Cdb;
 

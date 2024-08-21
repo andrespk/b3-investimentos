@@ -1,11 +1,9 @@
-using System.Diagnostics.CodeAnalysis;
 using B3.Investimentos.Infrastructure.Caching;
 using B3.Investimentos.Infrastructure.Caching.Abstractions;
 using FakeItEasy;
 using FluentAssertions;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
-using Xunit;
 
 namespace B3.Investimentos.UnitTests.Cache;
 
@@ -14,7 +12,7 @@ public class CacheServiceTests
     [Fact(DisplayName = "Deve operar corretamente com o provedor de cache em memória")]
     public async Task DeveOperarCorretamenteComProvedorCacheEmMemoriaAsync()
     {
-        var provider = ObterCacheProvider();
+        var provider = UnitTestHelper.ObterCacheProvider();
         var cacheKey = Guid.NewGuid().ToString();
         var valorEsperado = "TESTE123";
         var ttl = TimeSpan.FromSeconds(5);
@@ -76,14 +74,5 @@ public class CacheServiceTests
 
     private static CancellationToken ObterCancellationToken() => new();
     
-    private static MemoryCacheProvider ObterCacheProvider()
-    {
-        var services = new ServiceCollection();
-        services.AddMemoryCache();
-        var serviceProvider = services.BuildServiceProvider();
-
-        var memoryCache = serviceProvider.GetService<IMemoryCache>() ?? A.Fake<IMemoryCache>();
-        var provider = new MemoryCacheProvider(memoryCache);
-        return provider;
-    }
+    
 }

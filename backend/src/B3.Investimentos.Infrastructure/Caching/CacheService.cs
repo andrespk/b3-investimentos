@@ -1,8 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
-using System.Text;
 using System.Text.Json;
 using B3.Investimentos.Infrastructure.Caching.Abstractions;
-using Microsoft.Extensions.Configuration;
 
 namespace B3.Investimentos.Infrastructure.Caching;
 
@@ -21,8 +19,5 @@ public class CacheService(ICacheProvider provider) : ICacheService
         return provider.RegistrarAsync(cacheKey, valor, ttl, cancellationToken);
     }
 
-    public string GerarChave<T>(T chave)
-    {
-        return Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(chave)));
-    }
+    public string GerarChave<T>(T chave) => JsonSerializer.Serialize(chave).Replace(" ", string.Empty);
 }

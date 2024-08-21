@@ -1,9 +1,10 @@
 
 using System.Net;
 using System.Net.Http.Json;
+using B3.Investimentos.Api;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
-using HealthStatus = B3.Investimentos.Application.DTO.HealthStatus;
+using HealthStatus = B3.Investimentos.Application.Dto.HealthStatus;
 
 namespace B3.Investimentos.IntegrationTests.HealthCheck;
 

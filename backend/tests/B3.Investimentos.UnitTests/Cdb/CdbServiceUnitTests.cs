@@ -1,18 +1,26 @@
 using B3.Investimentos.Application.Constants;
+using B3.Investimentos.Application.Services;
 using B3.Investimentos.Domain.Cdb;
 using B3.Investimentos.Domain.Extensions;
+using B3.Investimentos.Infrastructure.Caching;
+using B3.Investimentos.Infrastructure.Caching.Abstractions;
 using Bogus;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
-using Xunit;
 
 namespace B3.Investimentos.UnitTests.Cdb;
 
 public class CdbServiceUnitTests
 {
     private readonly IConfiguration _configuration = UnitTestHelper.GetIConfigurationRoot();
+    private readonly ICacheService _cacheService;
     private readonly Faker _faker = new();
 
+    public CdbServiceUnitTests()
+    {
+        var cacheProvider = UnitTestHelper.ObterCacheProvider();
+        _cacheService = new CacheService(cacheProvider);
+    }
     [Fact(DisplayName = "Deve efetuar o resgate do CDB com sucesso")]
     public async Task DeveEfetuarResgateCdbComSucessoAsync()
     {
@@ -22,7 +30,7 @@ public class CdbServiceUnitTests
         var percentualCiPagoPeloBanco = _faker.Random.Number(100, 110);
         var cdb = new Domain.Cdb.Cdb(valorInicial, prazoEmMeses, percentualCi, percentualCiPagoPeloBanco);
         var resgateCdb = new ResgateCdb(new TributacaoIrCdb());
-        var servico = new CdbService(resgateCdb);
+        var servico = new CdbService(_cacheService, _configuration, resgateCdb);
         var resgate = await servico.ResgatarAsync(cdb,new CancellationToken());
         
         resgate.Should().NotBeNull();
@@ -40,7 +48,7 @@ public class CdbServiceUnitTests
             _configuration.GetValue<decimal>(ConfiguracaoAplicacao.PercentualPadraoCdiPagoPeloBanco);
         var cdb = new Domain.Cdb.Cdb(valorInicial, prazoEmMeses, percentualCi, percentualCiPagoPeloBanco);
         var resgateCdb = new ResgateCdb(new TributacaoIrCdb());
-        var servico = new CdbService(resgateCdb);
+        var servico = new CdbService(_cacheService, _configuration, resgateCdb);
         var resgate = await servico.ResgatarAsync(cdb, new CancellationToken());
 
         percentualCi.Should().BeGreaterThan(0);

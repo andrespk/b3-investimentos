@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using AstroCqrs;
-using B3.Investimentos.Api.Middlewares;
 using B3.Investimentos.Application.Contextos.Cdb;
+using B3.Investimentos.Application.Services;
 using B3.Investimentos.Domain.Cdb;
 using B3.Investimentos.Domain.Cdb.Abstractions;
 using B3.Investimentos.Infrastructure.Caching;

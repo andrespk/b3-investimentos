@@ -2,8 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using AstroCqrs;
 using B3.Investimentos.Api.Middlewares;
 using B3.Investimentos.Application.Commands.Cdb;
-using B3.Investimentos.Application.DTO;
-using B3.Investimentos.Domain.Cdb.Abstractions;
+using B3.Investimentos.Application.Dto;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Serilog;
 
@@ -16,7 +15,7 @@ public static class WebApplicationEntensions
     {
         app.UseHttpsRedirection();
         app.UseCors();
-        app.MapPostHandler<ResgatarCdbCommand.Command, Resultado<IResgateCdb>>("/cdb/resgatar")
+        app.MapPostHandler<ResgatarCdbCommand.Command, Resultado<ResgatarCdbCommand.Response>>("/cdb/resgatar")
             .WithName("b3-investimentos-resgatar-cdb")
             .WithOpenApi();
         Log.Logger.Information("Rotas configuradas: OK");

@@ -1,4 +1,4 @@
-namespace B3.Investimentos.Application.DTO;
+namespace B3.Investimentos.Application.Dto;
 
 public class HealthStatus
 {

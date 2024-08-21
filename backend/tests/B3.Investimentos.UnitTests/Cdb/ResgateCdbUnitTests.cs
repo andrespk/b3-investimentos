@@ -4,7 +4,6 @@ using B3.Investimentos.Domain.Extensions;
 using Bogus;
 using FakeItEasy;
 using FluentAssertions;
-using Xunit;
 using ValidationException = FluentValidation.ValidationException;
 
 namespace B3.Investimentos.UnitTests.Cdb;
@@ -47,17 +46,21 @@ public class ResgateCdbUnitTests
         var valorInvestido = _faker.Random.Decimal(1, 10000).Truncar(2);
         var percentualCi = _faker.Random.Decimal(0.1M, 0.9M);
         var percentualCiPagoPeloBanco = _faker.Random.Number(100, 110);
+        Exception exception = null;
 
         try
         {
             var cdb = new Domain.Cdb.Cdb(valorInvestido, prazoEmMeses, percentualCi, percentualCiPagoPeloBanco);
-            var resgateCdb = new ResgateCdb(A.Fake<ITributacaoIrCdb>());
+            var resgateCdb = new ResgateCdb(new TributacaoIrCdb());
             resgateCdb.Resgatar(cdb);
         }
         catch (ValidationException e)
         {
+            exception = e;
             e.Message.Contains("o prazo em meses informado é inválido", StringComparison.InvariantCultureIgnoreCase)
                 .Should().BeTrue();
         }
+
+        exception.Should().NotBeNull();
     }
 }

@@ -50,13 +50,13 @@ public class GlobalExceptionHandlerMiddlewareUnitTests
     [Fact(DisplayName = "Deve Resolver a chave de uma lista de erros de validação corretaemente")]
     public void DeveResolverChaveListaErrosDeValidacaoCorretamenteAsync()
     {
-        var valorChave = "0[123]456";
+        var valorChave = "0[123]456[789]";
 
 
         var resultado = GlobalExceptionHandlerMiddleware.ResolverChaveDaValidacao(valorChave);
 
         string.IsNullOrEmpty(resultado).Should().BeFalse();
-        resultado.Should().Be("0.123456");
+        resultado.Should().Be("0.123456.789");
     }
 
     private static ILogger ConfigurarEObterLogger()
